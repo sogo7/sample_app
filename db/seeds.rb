@@ -3,8 +3,8 @@ User.create!(name:  "Example User",
       password:              "foobar",
       password_confirmation: "foobar",
       admin: true)
-      activated: true,
-      activated_at: Time.zone.now)
+      # activated: true,
+      # activated_at: Time.zone.now)
 
 
 # 追加のユーザーをまとめて生成する
@@ -26,3 +26,10 @@ users = User.order(:created_at).take(6)
   content = Faker::Lorem.sentence(word_count: 5)
   users.each { |user| user.microposts.create!(content: content) }
 end
+
+users = User.all
+user  = users.first
+following = users[2..50]
+followers = users[3..40]
+following.each { |followed| user.follow(followed) }
+followers.each { |follower| follower.follow(user) }
